@@ -1,0 +1,54 @@
+name: sdrplusplus
+base: core24
+version: '1.2.1'
+summary: SDRPlusPlus
+description: |
+  SDR++ is a cross-platform and open source SDR software with the aim of being bloat free and simple to use.
+
+platforms:
+  amd64:
+  arm64:
+grade: stable
+confinement: strict
+
+layout:
+  /usr/bin/sdrpp:
+    bind-file: $SNAP/usr/bin/sdrpp
+  /usr/share/sdrpp:
+    bind: $SNAP/usr/share/sdrpp
+  /usr/lib/sdrpp/plugins:
+    bind: $SNAP/usr/lib/sdrpp/plugins
+
+apps:
+  sdrpp:
+    command: usr/bin/sdrpp
+    plugs:
+      - network
+      - network-bind
+      - opengl
+      - audio-playback
+      - audio-record
+      - jack1
+      - pulseaudio
+
+parts:
+  sdrpp-deb:
+    plugin: dump
+    source: https://github.com/AlexandreRouma/SDRPlusPlus/releases/download/nightly/sdrpp_ubuntu_noble_amd64.deb
+    source-type: deb
+    stage-packages:
+      - libopengl-dev
+      - libfftw3-dev
+      - libglfw3-dev
+      - libvolk-dev
+      - libairspy-dev
+      - libbladerf-dev
+      - libhackrf-dev
+      - libzstd-dev
+      - libsoapysdr-dev
+      - libairspyhf-dev
+      - libiio-dev
+      - libad9361-dev
+      - librtaudio-dev
+      - libglu1-mesa
+      - rtl-sdr
