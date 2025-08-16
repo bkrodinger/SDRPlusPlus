@@ -1,4 +1,4 @@
-name: sdrplusplus
+name: sdrpp
 base: core24
 version: '1.2.1'
 summary: SDRPlusPlus
@@ -7,7 +7,6 @@ description: |
 
 platforms:
   amd64:
-  arm64:
 grade: stable
 confinement: strict
 
@@ -18,6 +17,11 @@ layout:
     bind: $SNAP/usr/share/sdrpp
   /usr/lib/sdrpp/plugins:
     bind: $SNAP/usr/lib/sdrpp/plugins
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+
 
 apps:
   sdrpp:
@@ -30,6 +34,12 @@ apps:
       - audio-record
       - jack1
       - pulseaudio
+      - home
+      - alsa
+      - desktop
+    environment:
+      # pulseaudio
+      LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}:${SNAP}/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio
 
 parts:
   sdrpp-deb:
@@ -52,3 +62,7 @@ parts:
       - librtaudio-dev
       - libglu1-mesa
       - rtl-sdr
+      - pulseaudio
+      - libpulse-dev
+      - libasound2
+      - libasound2-plugins
